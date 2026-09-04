@@ -119,6 +119,10 @@ python main.py
 
 ![Second pipeline run, 10 findings skipped as duplicates, 0 tickets created](screenshots/pipeline_dedup.png)
 
+**Jira ticket showing High priority correctly set from GuardDuty severity 8.0 after the priority mapping fix**
+
+![Jira ticket showing High priority correctly set from GuardDuty severity 8.0 after the priority mapping fix](screenshots/jira_ticket_priority_fixed.png)
+
 ## Notes
 
 - `enterprise-attack.json` is not in this repo (48MB). Download it using the command in Setup.
