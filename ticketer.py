@@ -73,6 +73,7 @@ def create_ticket(enriched_finding, processed_ids):
             "project": {"key": PROJECT_KEY},
             "summary": f"[GuardDuty] {title} ({finding_id})",
             "issuetype": {"name": "Task"},
+            "priority": {"name": priority},
             "description": {
                 "type": "doc",
                 "version": 1,
