@@ -1,7 +1,6 @@
 import boto3
 import logging
 import os
-from datetime import datetime
 
 from dotenv import load_dotenv
 
