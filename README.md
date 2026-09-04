@@ -125,3 +125,7 @@ python main.py
 - The pipeline uses local state (`processed_findings.json`) for deduplication across runs.
 - Jira API tokens expire. Renew the token in `.env` before it lapses to keep the pipeline running.
 - Authorization: all API calls are to your own AWS account and Jira tenant. No external systems are targeted.
+
+## License
+
+Released under the MIT License. See [LICENSE](LICENSE).
