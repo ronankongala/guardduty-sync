@@ -2,10 +2,6 @@
 
 Python automation pipeline that polls AWS GuardDuty findings, enriches each finding with MITRE ATT&CK context, and auto-creates triage tickets in Jira Cloud.
 
-## Summary
-
-Built GuardDutySync, a Python automation pipeline that polls AWS GuardDuty findings via the GuardDuty API, maps each finding type to MITRE ATT&CK tactics and techniques using a custom-built technique mapping table and the STIX bundle, and auto-creates structured triage tickets in Jira Cloud via REST API with severity-mapped priority and MITRE enrichment fields; includes local-state deduplication to prevent duplicate tickets across pipeline runs.
-
 ## Architecture
 
 The pipeline runs in three stages.
@@ -67,59 +63,39 @@ python main.py
 
 ## Screenshots
 
-**IAM user with AmazonGuardDutyReadOnlyAccess policy attached**
+AWS setup: the IAM user with `AmazonGuardDutyReadOnlyAccess`, GuardDuty active in us-east-1, the 434 sample findings generated across all finding types, and boto3 auth returning the detector ID.
 
 ![IAM user with AmazonGuardDutyReadOnlyAccess policy attached](screenshots/iam_user_guardduty_setup.png)
 
-**GuardDuty enabled and active in us-east-1**
-
 ![GuardDuty enabled and active in us-east-1](screenshots/guardduty_enabled.png)
-
-**434 sample findings generated across all GuardDuty finding types**
 
 ![434 sample findings generated across all GuardDuty finding types](screenshots/guardduty_sample_findings.png)
 
-**Successful boto3 auth returning the GuardDuty detector ID**
-
 ![Successful boto3 auth returning the GuardDuty detector ID](screenshots/guardduty_auth_token.png)
 
-**poller.py fetching 25 findings with ID, title, and severity logged per finding**
+Stage by stage: `poller.py` fetching 25 findings, `enricher.py` resolving finding types to MITRE techniques and tactics, and T1074 (Data Staged) checked against attack.mitre.org.
 
 ![poller.py fetching 25 findings with ID, title, and severity logged per finding](screenshots/poller_output.png)
 
-**enricher.py resolving finding types to MITRE techniques and tactics**
-
 ![enricher.py resolving finding types to MITRE techniques and tactics](screenshots/enricher_output.png)
-
-**T1074 Data Staged verified against attack.mitre.org**
 
 ![T1074 Data Staged verified against attack.mitre.org](screenshots/mitre_technique_verify.png)
 
-**Jira Cloud project created for triage tickets**
+Jira: the triage project, a test issue confirming REST API auth, `ticketer.py` creating 5 tickets with priority mapping logged, and a ticket with every enriched field populated.
 
 ![Jira Cloud project created for triage tickets](screenshots/jira_project_setup.png)
 
-**Test issue created via Jira REST API confirming auth works**
-
 ![Test issue created via Jira REST API confirming auth works](screenshots/jira_test_issue.png)
-
-**ticketer.py creating 5 Jira tickets with priority mapping logged**
 
 ![ticketer.py creating 5 Jira tickets with priority mapping logged](screenshots/ticketer_output.png)
 
-**Fully populated Jira ticket showing all enriched fields**
-
 ![Fully populated Jira ticket showing all enriched fields](screenshots/jira_ticket_detail.png)
 
-**Full pipeline run, 10 alerts fetched, 10 tickets created, 0 errors**
+End to end: a full run that fetched 10 alerts and created 10 tickets with 0 errors, a second run that skipped all 10 as duplicates, and a ticket showing High priority set from GuardDuty severity 8.0 after the priority mapping fix.
 
 ![Full pipeline run, 10 alerts fetched, 10 tickets created, 0 errors](screenshots/pipeline_run_full.png)
 
-**Second pipeline run, 10 findings skipped as duplicates, 0 tickets created**
-
 ![Second pipeline run, 10 findings skipped as duplicates, 0 tickets created](screenshots/pipeline_dedup.png)
-
-**Jira ticket showing High priority correctly set from GuardDuty severity 8.0 after the priority mapping fix**
 
 ![Jira ticket showing High priority correctly set from GuardDuty severity 8.0 after the priority mapping fix](screenshots/jira_ticket_priority_fixed.png)
 
